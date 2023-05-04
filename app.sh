@@ -15,13 +15,9 @@ then
   fi
   >&2 echo "INFO: Fetching date from the Internet. Hang on!"
   date_str=$(curl -i -sS google.com | grep -E '^Date:' | sed 's/^Date: //')
+  date=$(date -d "$date_str")
 else
-  date_str=$(cat /app/include/date.txt)
-fi
-if ! date=$(date -d "$date_str")
-then
-  >&2 echo "ERROR: Unable to parse date string: $date_str"
-  exit 1
+  date=$(cat /app/include/date.txt)
 fi
 printf "\n\n🕰️  The date is: %s\n\n" "$date"
 printf "⚙️  Here's what's running in your container:\n\n"
